@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Pegawai - JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2>Data Pegawai</h2>
+
+    <!-- Form Input Pegawai -->
+    <form id="pegawaiForm">
+        <div class="form-group">
+            <label>Nama:</label>
+            <input type="text" id="nama" required>
+        </div>
+        <div class="form-group">
+            <label>Umur:</label>
+            <input type="number" id="umur" required>
+        </div>
+        <div class="form-group">
+            <label>Jabatan:</label>
+            <select id="jabatan">
+                <option value="Manajer">Manajer</option>
+                <option value="Asisten Manajer">Asisten Manajer</option>
+                <option value="Staff">Staff</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Status:</label>
+            <select id="status">
+                <option value="Menikah">Menikah</option>
+                <option value="Belum Menikah">Belum Menikah</option>
+            </select>
+        </div>
+        <button type="submit">Tambah Pegawai</button>
+    </form>
+
+    <br>
+
+    <!-- Tabel Data Pegawai -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Pegawai</th>
+                <th>Umur</th>
+                <th>Jabatan</th>
+                <th>Status</th>
+                <th>Gaji Pokok</th>
+                <th>Tunjangan Jabatan</th>
+                <th>BPJS</th>
+                <th>Tunjangan Keluarga</th>
+                <th>Total Gaji</th>
+            </tr>
+        </thead>
+        <tbody id="pegawaiData"></tbody>
+        <tfoot>
+            <tr>
+                <th colspan="8">Total Seluruh Gaji Pegawai</th>
+                <th id="totalSemuaGaji">Rp 0</th>
+            </tr>
+        </tfoot>
+    </table>
+
+    <script>
+        // Array untuk menyimpan data pegawai
+let pegawaiList = [];
+
+// Fungsi untuk menambahkan pegawai baru
+function tambahPegawai(event) {
+    event.preventDefault(); // Mencegah refresh halaman
+
+    // Mengambil nilai dari form
+    let nama = document.getElementById("nama").value;
+    let umur = document.getElementById("umur").value;
+    let jabatan = document.getElementById("jabatan").value;
+    let status = document.getElementById("status").value;
+
+    // Menentukan gaji pokok berdasarkan jabatan
+    let gajiPokok;
+    switch (jabatan) {
+        case "Manajer":
+            gajiPokok = 15000000;
+            break;
+        case "Asisten Manajer":
+            gajiPokok = 10000000;
+            break;
+        case "Staff":
+            gajiPokok = 5000000;
+            break;
+        default:
+            gajiPokok = 0;
+    }
+
+    // Menghitung tunjangan dan total gaji
+    let tunjanganJabatan = gajiPokok * 0.15;
+    let bpjs = gajiPokok * 0.10;
+    let tunjanganKeluarga = (status === "Menikah") ? gajiPokok * 0.20 : 0;
+    let totalGaji = gajiPokok + tunjanganJabatan + tunjanganKeluarga - bpjs;
+
+    // Menyimpan data pegawai ke dalam array
+    let pegawaiBaru = { nama, umur, jabatan, status, gajiPokok, tunjanganJabatan, bpjs, tunjanganKeluarga, totalGaji };
+    pegawaiList.push(pegawaiBaru);
+
+    // Menampilkan data pegawai yang baru ditambahkan
+    tampilkanPegawai();
+
+    // Reset form setelah data ditambahkan
+    document.getElementById("pegawaiForm").reset();
+}
+
+// Fungsi untuk menampilkan data pegawai dalam tabel
+function tampilkanPegawai() {
+    let tbody = document.getElementById("pegawaiData");
+    tbody.innerHTML = ""; // Mengosongkan isi tabel sebelum diperbarui
+
+    pegawaiList.forEach(pegawai => {
+        let row = `
+            <tr>
+                <td>${pegawai.nama}</td>
+                <td>${pegawai.umur} tahun</td>
+                <td>${pegawai.jabatan}</td>
+                <td>${pegawai.status}</td>
+                <td>Rp ${pegawai.gajiPokok.toLocaleString()}</td>
+                <td>Rp ${pegawai.tunjanganJabatan.toLocaleString()}</td>
+                <td>Rp ${pegawai.bpjs.toLocaleString()}</td>
+                <td>Rp ${pegawai.tunjanganKeluarga.toLocaleString()}</td>
+                <td>Rp ${pegawai.totalGaji.toLocaleString()}</td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+
+    // Perbarui total semua gaji di footer
+    hitungTotalGaji();
+}
+
+// Fungsi untuk menghitung total seluruh gaji pegawai
+function hitungTotalGaji() {
+    let total = pegawaiList.reduce((sum, pegawai) => sum + pegawai.totalGaji, 0);
+    document.getElementById("totalSemuaGaji").textContent = "Rp " + total.toLocaleString();
+}
+
+// Menambahkan event listener untuk form submit
+document.getElementById("pegawaiForm").addEventListener("submit", tambahPegawai);
+
+    </script>
+
+</body>
+</html>

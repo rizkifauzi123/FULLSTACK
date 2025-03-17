@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung Luas</title>
+</head>
+<body>
+    <div class="result">
+        <h2>Hasil Perhitungan Luas</h2>
+        <p id="luasPersegiPanjang"></p>
+        <p id="luasBujurSangkar"></p>
+        <p id="luasSegitiga"></p>
+    </div>
+
+    <script>
+        // Fungsi untuk menghitung luas persegi panjang
+        function hitungLuasPersegiPanjang(panjang, lebar) {
+            // Luas = panjang * lebar
+            return panjang * lebar;
+        }
+
+        // Fungsi untuk menghitung luas bujur sangkar
+        function hitungLuasBujurSangkar(sisi) {
+            // Luas = sisi * sisi
+            return sisi * sisi;
+        }
+
+        // Fungsi untuk menghitung luas segitiga
+        function hitungLuasSegitiga(panjang, tinggi) {
+            // Luas = 0.5 * panjang * tinggi
+            return 0.5 * panjang * tinggi;
+        }
+
+        // Contoh penggunaan fungsi
+        const panjangPersegiPanjang = 15; // Panjang persegi panjang
+        const lebarPersegiPanjang = 5; // Lebar persegi panjang
+        const sisiBujurSangkar = 8; // Sisi bujur sangkar
+        const panjangSegitiga = 9; // Panjang segitiga
+        const tinggiSegitiga = 3; // Tinggi segitiga
+
+        // Menghitung luas
+        const luasPersegiPanjang = hitungLuasPersegiPanjang(panjangPersegiPanjang, lebarPersegiPanjang);
+        const luasBujurSangkar = hitungLuasBujurSangkar(sisiBujurSangkar);
+        const luasSegitiga = hitungLuasSegitiga(panjangSegitiga, tinggiSegitiga);
+
+        // Menampilkan hasil di halaman
+        document.getElementById("luasPersegiPanjang").innerText = "Luas Persegi Panjang: " + luasPersegiPanjang + " satuan persegi";
+        document.getElementById("luasBujurSangkar").innerText = "Luas Bujur Sangkar: " + luasBujurSangkar + " satuan persegi";
+        document.getElementById("luasSegitiga").innerText = "Luas Segitiga: " + luasSegitiga + " satuan persegi";
+    </script>
+</body>
+</html>
