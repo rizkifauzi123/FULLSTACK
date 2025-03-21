@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Transportasi</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Manajemen Transportasi</h1>
+        
+        <h2>Form Penyewaan Kendaraan</h2>
+        <div class="form-group">
+            <label for="nama">Nama Pelanggan</label>
+            <input type="text" id="nama" placeholder="Nama Pelanggan">
+        </div>
+        <div class="form-group">
+            <label for="nomorTelepon">Nomor Telepon</label>
+            <input type="text" id="nomorTelepon" placeholder="Nomor Telepon">
+        </div>
+        <div class="form-group">
+            <label for="kendaraan">Pilih Kendaraan</label>
+            <select id="kendaraan">
+                <option value="Mobil">Mobil</option>
+                <option value="Motor">Motor</option>
+                <option value="Sepeda">Sepeda</option>
+                <option value="Bus">Bus</option>
+                <option value="Truk">Truk</option>
+            </select>
+        </div>
+        <button onclick="sewaKendaraan()">Sewa Kendaraan</button>
+
+        <h2>Daftar Pelanggan yang Menyewa</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Nomor Telepon</th>
+                    <th>Kendaraan</th>
+                </tr>
+            </thead>
+            <tbody id="tabelPelanggan"></tbody>
+        </table>
+    </div>
+    
+    <script>
+        class Pelanggan {
+            constructor(nama, nomorTelepon, kendaraanDisewa) {
+                this.nama = nama;
+                this.nomorTelepon = nomorTelepon;
+                this.kendaraanDisewa = kendaraanDisewa;
+            }
+        }
+
+        class SistemTransportasi {
+            constructor() {
+                this.daftarPelanggan = [
+                    new Pelanggan("Andi", "08123456789", "Mobil"),
+                    new Pelanggan("Budi", "08234567890", "Motor"),
+                    new Pelanggan("Citra", "08345678901", "Sepeda")
+                ];
+                this.tampilkanPelanggan();
+            }
+
+            sewaKendaraan(nama, nomorTelepon, kendaraan) {
+                const pelangganBaru = new Pelanggan(nama, nomorTelepon, kendaraan);
+                this.daftarPelanggan.push(pelangganBaru);
+                this.tampilkanPelanggan();
+            }
+
+            tampilkanPelanggan() {
+                let tabelPelanggan = document.getElementById("tabelPelanggan");
+                tabelPelanggan.innerHTML = "";
+                this.daftarPelanggan.forEach(pelanggan => {
+                    let row = `<tr>
+                        <td>${pelanggan.nama}</td>
+                        <td>${pelanggan.nomorTelepon}</td>
+                        <td>${pelanggan.kendaraanDisewa}</td>
+                    </tr>`;
+                    tabelPelanggan.innerHTML += row;
+                });
+            }
+        }
+
+        const sistemTransportasi = new SistemTransportasi();
+
+        function sewaKendaraan() {
+            let nama = document.getElementById("nama").value;
+            let nomorTelepon = document.getElementById("nomorTelepon").value;
+            let kendaraan = document.getElementById("kendaraan").value;
+            
+            if (!nama || !nomorTelepon || !kendaraan) {
+                alert("Harap isi semua data penyewaan.");
+                return;
+            }
+            
+            sistemTransportasi.sewaKendaraan(nama, nomorTelepon, kendaraan);
+            
+            document.getElementById("nama").value = "";
+            document.getElementById("nomorTelepon").value = "";
+        }
+    </script>
+</body>
+</html>
