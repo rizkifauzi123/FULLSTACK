@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Produk</title>
+    <link rel="stylesheet" href="styles.css">
+<body>
+    <div class="container">
+        <h2>Manajemen Produk</h2>
+        
+        <h3>Tambah Produk</h3>
+        <div class="form-group">
+            <input type="text" id="nama" placeholder="Nama Produk" />
+        </div>
+        <div class="form-group">
+            <input type="number" id="harga" placeholder="Harga Produk" />
+        </div>
+        <button id="tambahBtn">Tambah Produk</button>
+
+        <h3>Daftar Produk</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Harga</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="produkTable"></tbody>
+        </table>
+    </div>
+    
+    <script>
+        let produkList = [
+            { id: 1, nama: "Laptop", harga: 12000000 },
+            { id: 2, nama: "Smartphone", harga: 5000000 },
+            { id: 3, nama: "Tablet", harga: 7000000 },
+            { id: 4, nama: "Smartwatch", harga: 1500000 },
+            { id: 5, nama: "Headphone", harga: 800000 }
+        ];
+
+        function tampilkanProduk() {
+            const tableBody = document.getElementById("produkTable");
+            tableBody.innerHTML = "";
+            produkList.forEach(({ id, nama, harga }) => {
+                let row = `<tr>
+                    <td>${id}</td>
+                    <td>${nama}</td>
+                    <td>Rp ${harga.toLocaleString()}</td>
+                    <td><button class='hapus-btn' onclick='hapusProduk(${id})'>Hapus</button></td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function tambahProduk() {
+            let nama = document.getElementById("nama").value;
+            let harga = Number(document.getElementById("harga").value);
+            if (nama && harga) {
+                let id = produkList.length ? produkList[produkList.length - 1].id + 1 : 1;
+                produkList.push({ id, nama, harga });
+                tampilkanProduk();
+            } else {
+                alert("Mohon isi semua kolom!");
+            }
+        }
+
+        function hapusProduk(id) {
+            produkList = produkList.filter(produk => produk.id !== id);
+            tampilkanProduk();
+        }
+
+        document.getElementById("tambahBtn").addEventListener("click", tambahProduk);
+        tampilkanProduk();
+    </script>
+</body>
+</html>
