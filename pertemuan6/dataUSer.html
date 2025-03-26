@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Data Pengguna</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+        }
+
+        /* Form Responsif */
+        .form-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .form-container input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 15%;
+            min-width: 150px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Tabel */
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00ddff;
+            color: white;
+        }
+
+        td button {
+            background-color: #dc3545;
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        td button:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsif untuk layar kecil (ponsel) */
+        @media screen and (max-width: 768px) {
+            .form-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .form-container input {
+                width: 80%;
+            }
+
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Manajemen Data Pengguna</h2>
+
+    <div class="form-container">
+        <input type="text" id="nama" placeholder="Nama" required>
+        <input type="number" id="umur" placeholder="Umur" required>
+        <input type="text" id="alamat" placeholder="Alamat" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <button onclick="tambahData()">Tambah Data</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Umur</th>
+                <th>Alamat</th>
+                <th>Email</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="userTable">
+        </tbody>
+    </table>
+
+    <script>
+        const users = [
+            { nama: "Andi", umur: 25, alamat: "Jakarta", email: "andi@email.com" },
+            { nama: "Budi", umur: 30, alamat: "Bandung", email: "budi@email.com" },
+            { nama: "Citra", umur: 22, alamat: "Garut", email: "citra@email.com" },
+            { nama: "Dias", umur: 30, alamat: "Jonggol", email: "dias@gmail.com"},
+            { nama: "Nawawi", umur: 25, alamat: "Ceger", email: "nawawi12@gmail.com"},
+            { nama: "Adnan", umur: 20, alamat: "Bogor", email: "adnankhobir@gmail.com"},
+            { nama: "Akbar", umur: 35, alamat: "Aceh", email: "akbar34@gmail.com"},
+            { nama: "Adit", umur: 15, alamat: "Citra", email: "adit123@gmail.com"},
+            { nama: "Nawawi", umur: 25, alamat: "Ceger", email: "nawawi12@gmail.com"},
+            { nama: "Ariul", umur: 20, alamat: "nyalindung", email: "arul32`@gmail.com"},
+            
+
+
+        ];
+
+        function tampilkanData() {
+            const userTable = document.getElementById("userTable");
+            userTable.innerHTML = "";
+
+            users.forEach((user, index) => {
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td>${user.nama}</td>
+                                <td>${user.umur}</td>
+                                <td>${user.alamat}</td>
+                                <td>${user.email}</td>
+                                <td><button onclick="hapusData(${index})">Hapus</button></td>
+                            </tr>`;
+                userTable.innerHTML += row;
+            });
+        }
+
+        function tambahData() {
+            const nama = document.getElementById("nama").value;
+            const umur = document.getElementById("umur").value;
+            const alamat = document.getElementById("alamat").value;
+            const email = document.getElementById("email").value;
+
+            if (nama && umur && alamat && email) {
+                users.push({ nama, umur, alamat, email });
+                tampilkanData();
+                document.getElementById("nama").value = "";
+                document.getElementById("umur").value = "";
+                document.getElementById("alamat").value = "";
+                document.getElementById("email").value = "";
+            } else {
+                alert("Harap isi semua field!");
+            }
+        }
+
+        function hapusData(index) {
+            users.splice(index, 1);
+            tampilkanData();
+        }
+
+        // Menampilkan data awal
+        tampilkanData();
+    </script>
+
+</body>
+</html>
